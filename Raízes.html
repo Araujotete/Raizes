@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayó & Malik - Jornada Empreendedora</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #2C3E50 0%, #8E44AD 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            color: #ecf0f1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .game-title {
+            font-size: 2.5em;
+            color: #F39C12;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .phase-indicator {
+            font-size: 1.2em;
+            color: #16A085;
+            margin-bottom: 20px;
+        }
+
+        .character-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #F39C12;
+        }
+
+        .character-name {
+            font-size: 1.5em;
+            color: #16A085;
+            margin-bottom: 10px;
+        }
+
+        .dialogue {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .game-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            min-height: 200px;
+        }
+
+        .mission-text {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+
+        .objects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .object {
+            background: #8E44AD;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .object:hover {
+            transform: scale(1.1);
+            border-color: #F39C12;
+        }
+
+        .object.collected {
+            background: #27AE60;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .object-emoji {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .object-name {
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #444;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8E44AD, #16A085);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: #F39C12;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #16A085;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #138D75;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .message.success {
+            background: #27AE60;
+            color: white;
+        }
+
+        .message.warning {
+            background: #E74C3C;
+            color: white;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        .quiz-option {
+            margin: 8px 0;
+        }
+
+        .quiz-option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+
+        .quiz-option label:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-top: 10px;
+            font-size: 1em;
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-line {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1 class="game-title">Ayó & Malik</h1>
+            <p style="color: #F39C12; font-size: 1.1em;">Jornada Empreendedora Negra</p>
+        </div>
+        <div id="gameArea"></div>
+    </div>
+
+    <script>
+        const gameData = {
+            playerName: "",
+            playerEmoji: "",
+            gameStarted: false,
+            currentPhase: 0,
+            score: 0,
+            collectedItems: [],
+            phases: [
+                {
+                    name: "Fase 1: Raízes da Resistência",
+                    character: "Dona Zefa",
+                    characterEmoji: "👵",
+                    dialogue: "Bem-vindo, jovem. Antes de empreender, é preciso entender de onde viemos. Cada passo que damos hoje carrega a força dos que vieram antes.",
+                    mission: "Escolha APENAS os 3 objetos simbólicos de resistência negra:",
+                    type: "collection",
+                    objects: [
+                        { name: "Tambor", emoji: "🥁", correct: true },
+                        { name: "Documento de Alforria", emoji: "📜", correct: true },
+                        { name: "Capoeira", emoji: "🤸", correct: true },
+                        { name: "Espada Medieval", emoji: "⚔️", correct: false },
+                        { name: "Coroa Europeia", emoji: "👑", correct: false },
+                        { name: "Telefone", emoji: "📱", correct: false }
+                    ],
+                    required: 3
+                },
+                {
+                    name: "Fase 2: Identidade e Potência",
+                    character: "Kael",
+                    characterEmoji: "👨‍🎨",
+                    dialogue: "A nossa estética é resistência. Cada traço, cada cor, cada ritmo é uma forma de dizer: estamos aqui!",
+                    mission: "Selecione entre 2 e 3 elementos para criar seu negócio:",
+                    type: "creation",
+                    elements: [
+                        "🧣 Turbante",
+                        "🌶️ Tempero",
+                        "🎵 Ritmo",
+                        "💄 Beleza",
+                        "💻 Tecnologia",
+                        "🎨 Arte",
+                        "✍️ Escrita",
+                        "📚 Educação",
+                        "🎭 Teatro",
+                        "📸 Fotografia"
+                    ],
+                    minRequired: 2,
+                    maxRequired: 3
+                },
+                {
+                    name: "Fase 3: Barreiras e Inovação",
+                    character: "Jéssica & Rafa",
+                    characterEmoji: "👩‍💼",
+                    dialogue: "Empreender sendo negra é como correr com o vento contra. Mas a gente corre mesmo assim!",
+                    mission: "Clique no alvo final para completar:",
+                    type: "maze",
+                    required: 1
+                },
+                {
+                    name: "Fase 4: Educação e Tecnologia",
+                    character: "Professora Lúcia & Ícaro",
+                    characterEmoji: "👨‍🏫",
+                    dialogue: "Empreender sem conhecimento é como navegar sem bússola. Mas quando a gente aprende, a gente transforma.",
+                    lesson: "Para criar um negócio de sucesso, você precisa dominar alguns conceitos fundamentais:<br><br><strong>📊 Pesquisa de Mercado:</strong> Entender quem são seus clientes e o que eles precisam.<br><br><strong>💰 Precificação:</strong> Saber calcular custos e definir preços justos que garantam lucro.<br><br><strong>📱 Marketing:</strong> Divulgar seu negócio de forma estratégica para alcançar o público certo.<br><br><strong>🤝 Black Money:</strong> Movimento de circulação de dinheiro entre empreendedores e consumidores negros, fortalecendo a economia da comunidade.<br><br><strong>📝 Plano de Negócio:</strong> Documento que descreve sua ideia, mercado, estratégias e projeções financeiras.<br><br>Agora vamos testar seus conhecimentos!",
+                    mission: "Responda as perguntas sobre empreendedorismo:",
+                    type: "quiz",
+                    questions: [
+                        {
+                            q: "Qual é a primeira etapa de um bom negócio?",
+                            options: ["Vender logo", "Pesquisa de mercado", "Pedir empréstimo", "Copiar concorrentes"],
+                            correct: 1
+                        },
+                        {
+                            q: "O que significa Black Money?",
+                            options: ["Dinheiro ilegal", "Economia entre empreendedores negros", "Moeda antiga", "Investimento estrangeiro"],
+                            correct: 1
+                        },
+                        {
+                            q: "Como se chama o documento que descreve seu negócio?",
+                            options: ["Contrato", "Plano de negócio", "Recibo", "Nota fiscal"],
+                            correct: 1
+                        },
+                        {
+                            q: "Para calcular o preço de venda, você deve considerar:",
+                            options: ["Só o custo do produto", "Custos + despesas + margem de lucro", "O preço do concorrente", "Um valor aleatório"],
+                            correct: 1
+                        },
+                        {
+                            q: "Qual é a melhor forma de divulgar um negócio local com pouco dinheiro?",
+                            options: ["TV e rádio", "Redes sociais e boca a boca", "Outdoor caro", "Não divulgar"],
+                            correct: 1
+                        },
+                        {
+                            q: "O que é mais importante ao criar um negócio de impacto social?",
+                            options: ["Lucro máximo", "Resolver um problema da comunidade", "Ter muitos funcionários", "Ter loja física"],
+                            correct: 1
+                        }
+                    ],
+                    required: 4
+                },
+                {
+                    name: "Fase 5: Transformação Social",
+                    character: "Dandara & Nina",
+                    characterEmoji: "👩‍🔬",
+                    dialogue: "Empreender é mais que vender — é transformar. Faça seu pitch final!",
+                    mission: "Crie seu pitch de negócio:",
+                    type: "pitch",
+                    required: 1
+                },
+                {
+                    name: "🌱 Capítulo 6: A Semente da Visão",
+                    character: "",
+                    characterEmoji: "",
+                    dialogue: "Você observa sua comunidade e percebe problemas que poderiam ser resolvidos. Uma ideia começa a germinar em sua mente...",
+                    lesson: "<strong>💡 O Nascimento de uma Ideia</strong><br><br>Todo grande negócio começa com a observação de um problema. Empreendedores de impacto social não buscam apenas lucro, mas soluções que transformem vidas.<br><br><strong>Dica:</strong> Converse com pessoas da sua comunidade, mentores e amigos. As melhores ideias surgem da escuta ativa!",
+                    mission: "Reflita sobre sua ideia de negócio:",
+                    type: "reflection",
+                    questions: [
+                        {
+                            prompt: "Qual problema você observou na sua comunidade?",
+                            placeholder: "Ex: Falta de acesso a produtos de beleza afro..."
+                        },
+                        {
+                            prompt: "Como sua ideia pode resolver esse problema?",
+                            placeholder: "Ex: Criar uma loja online especializada..."
+                        },
+                        {
+                            prompt: "Qual é a sua maior dúvida sobre este projeto?",
+                            placeholder: "Ex: Será que as pessoas vão comprar?"
+                        }
+                    ]
+                },
+                {
+                    name: "🧭 Capítulo 7: O Mapa e a Bússola",
+                    character: "Mentor(a) Empreendedor(a)",
+                    characterEmoji: "👨‍💼",
+                    dialogue: "Agora é hora de planejar! Toda jornada precisa de um mapa. Vamos estruturar sua ideia.",
+                    lesson: "<strong>📋 Planejamento Estratégico</strong><br><br><strong>🎯 Público-alvo:</strong> Quem vai comprar de você?<br><strong>🔍 Concorrência:</strong> Quem já faz algo parecido?<br><strong>💰 Modelo de negócio:</strong> Como você vai ganhar dinheiro?<br><strong>📱 Canais:</strong> Onde vai vender? (online, física, ambos)<br><strong>🤝 Parcerias:</strong> Busque incubadoras, editais e apoio local<br><br><em>Lembre-se: Os primeiros 'não' fazem parte do caminho!</em>",
+                    mission: "Complete seu plano de negócio básico:",
+                    type: "business_plan",
+                    fields: [
+                        {
+                            label: "Nome do seu negócio:",
+                            id: "businessName",
+                            placeholder: "Ex: AfroBeleza"
+                        },
+                        {
+                            label: "Quem é seu público-alvo?",
+                            id: "targetAudience",
+                            placeholder: "Ex: Mulheres negras de 18 a 35 anos..."
+                        },
+                        {
+                            label: "Como você vai se diferenciar da concorrência?",
+                            id: "differential",
+                            placeholder: "Ex: Produtos naturais e entrega rápida..."
+                        }
+                    ]
+                },
+                {
+                    name: "🔨 Capítulo 8: Mãos à Obra",
+                    character: "Equipe de Apoio",
+                    characterEmoji: "👥",
+                    dialogue: "Chegou a hora de tirar do papel! Recursos são limitados, mas a criatividade não tem limites.",
+                    mission: "Enfrente os desafios do desenvolvimento:",
+                    type: "challenges",
+                    challenges: [
+                        {
+                            title: "💰 Falta de dinheiro inicial",
+                            options: [
+                                "Começar pequeno, com o que tenho",
+                                "Desistir até ter muito dinheiro",
+                                "Fazer um empréstimo grande"
+                            ],
+                            correct: 0,
+                            feedback: "Correto! Comece com o que você tem. MVP (Produto Mínimo Viável) é a chave!"
+                        },
+                        {
+                            title: "🤝 Conflito na equipe sobre direção do negócio",
+                            options: [
+                                "Ignorar o conflito",
+                                "Conversar abertamente e alinhar objetivos",
+                                "Expulsar quem discorda"
+                            ],
+                            correct: 1,
+                            feedback: "Excelente! Comunicação clara evita problemas maiores no futuro."
+                        },
+                        {
+                            title: "😰 Insegurança sobre capacidade de executar",
+                            options: [
+                                "Desistir na primeira dificuldade",
+                                "Buscar mentoria e aprender fazendo",
+                                "Fingir que sabe tudo"
+                            ],
+                            correct: 1,
+                            feedback: "Perfeito! Humildade para aprender é força, não fraqueza."
+                        }
+                    ],
+                    successMessage: "🎉 Primeiro cliente satisfeito! A esperança se reacende!"
+                },
+                {
+                    name: "🔥 Capítulo 9: O Fogo da Prova",
+                    character: "",
+                    characterEmoji: "",
+                    dialogue: "Chegou o grande dia! É hora de lançar oficialmente. O coração acelera, mas você está pronto(a).",
+                    mission: "Tome decisões críticas no lançamento:",
+                    type: "launch_decisions",
+                    scenarios: [
+                        {
+                            situation: "Um concorrente maior copiou sua ideia e lançou antes. O que fazer?",
+                            options: [
+                                "Desistir - eles são maiores",
+                                "Focar no seu diferencial e comunidade fiel",
+                                "Copiar de volta o que eles fazem"
+                            ],
+                            correct: 1,
+                            explanation: "Seu diferencial é sua autenticidade e conexão com a comunidade!"
+                        },
+                        {
+                            situation: "Recebeu críticas duras nas redes sociais. Como reagir?",
+                            options: [
+                                "Brigar com os críticos",
+                                "Ouvir o feedback construtivo e melhorar",
+                                "Apagar tudo e sumir"
+                            ],
+                            correct: 1,
+                            explanation: "Críticas construtivas são oportunidades de crescimento!"
+                        },
+                        {
+                            situation: "Primeira grande venda! O cliente quer desconto de 50%. Você:",
+                            options: [
+                                "Aceita para garantir a venda",
+                                "Negocia um desconto menor e agrega valor",
+                                "Recusa e perde o cliente"
+                            ],
+                            correct: 1,
+                            explanation: "Valorize seu trabalho! Negociação é diferente de desvalorização."
+                        }
+                    ]
+                },
+                {
+                    name: "🌄 Capítulo 10: Horizonte Aberto",
+                    character: "Comunidade",
+                    characterEmoji: "🎊",
+                    dialogue: "Sua empresa ganhou reconhecimento! O que começou como uma semente agora é uma árvore crescendo.",
+                    mission: "Celebre suas conquistas e planeje o futuro:",
+                    type: "celebration",
+                    achievements: [
+                        "✅ Primeira venda realizada",
+                        "✅ Cliente satisfeito e indicando",
+                        "✅ Presença nas redes sociais",
+                        "✅ Produto/serviço testado e aprovado",
+                        "✅ Resiliência desenvolvida"
+                    ],
+                    futureVision: true
+                }
+            ]
+        };
+
+        function renderCharacterSelection() {
+            const gameArea = document.getElementById('gameArea');
+            gameArea.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="font-size: 2em; color: #F39C12; margin-bottom: 20px;">Escolha seu personagem</h2>
+                    <p style="font-size: 1.1em; margin-bottom: 30px;">Quem vai iniciar essa jornada empreendedora?</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                        <div onclick="selectCharacter('Ayó', '👩🏾')" 
+                             style="background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 15px; cursor: pointer; transition: all 0.3s; border: 3px solid transparent;"
+                             onmouseover="this.style.borderColor='#F39C12'; this.style.transform='scale(1.05)'"
+                             onmouseout="this.style.borderColor='transparent'; this.style.transform='scale(1)'">
+                            <div style="font-size: 5em; margin-bottom: 15px;">👩🏾</div>
+                            <h3 style="font-size: 1.5em; color: #16A085; margin-bottom: 10px;">Ayó</h3>
+                            <p style="color: #ecf0f1;">Jovem empreendedora determinada</p>
+                        </div>
+                        <div onclick="selectCharacter('Malik', '🧑🏾')" 
+                             style="background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 15px; cursor: pointer; transition: all 0.3s; border: 3px solid transparent;"
+                             onmouseover="this.style.borderColor='#F39C12'; this.style.transform='scale(1.05)'"
+                             onmouseout="this.style.borderColor='transparent'; this.style.transform='scale(1)'">
+                            <div style="font-size: 5em; margin-bottom: 15px;">🧑🏾</div>
+                            <h3 style="font-size: 1.5em; color: #16A085; margin-bottom: 10px;">Malik</h3>
+                            <p style="color: #ecf0f1;">Jovem empreendedor determinado</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function selectCharacter(name, emoji) {
+            gameData.playerName = name;
+            gameData.playerEmoji = emoji;
+            gameData.gameStarted = true;
+
+            // Atualiza os capítulos 6 e 9 com o personagem escolhido
+            gameData.phases[5].character = name;
+            gameData.phases[5].characterEmoji = emoji;
+            gameData.phases[8].character = name;
+            gameData.phases[8].characterEmoji = emoji;
+
+            // Embaralha os objetos da Fase 1
+            gameData.phases[0].objects = shuffleArray(gameData.phases[0].objects);
+
+            // Embaralha os elementos da Fase 2
+            gameData.phases[1].elements = shuffleArray(gameData.phases[1].elements);
+
+            // Embaralha as questões da Fase 4
+            gameData.phases[3].questions = shuffleArray(gameData.phases[3].questions);
+
+            // Embaralha as opções de cada questão
+            gameData.phases[3].questions.forEach(question => {
+                const correctAnswer = question.options[question.correct];
+                question.options = shuffleArray(question.options);
+                question.correct = question.options.indexOf(correctAnswer);
+            });
+
+            renderGame();
+        }
+
+        function renderGame() {
+            const gameArea = document.getElementById('gameArea');
+            
+            if (!gameData.gameStarted) {
+                renderCharacterSelection();
+                return;
+            }
+
+            const phase = gameData.phases[gameData.currentPhase];
+            
+            if (!phase) {
+                renderEnding();
+                return;
+            }
+
+            let html = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div class="phase-indicator">
+                        Fase ${gameData.currentPhase + 1} de ${gameData.phases.length}
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.1); padding: 10px 15px; border-radius: 10px;">
+                        <span style="font-size: 1.5em;">${gameData.playerEmoji}</span>
+                        <span style="color: #F39C12; font-weight: bold;">${gameData.playerName}</span>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${((gameData.currentPhase + 1) / gameData.phases.length) * 100}%">
+                        ${Math.round(((gameData.currentPhase + 1) / gameData.phases.length) * 100)}%
+                    </div>
+                </div>
+
+                <div class="character-section">
+                    <div style="font-size: 2em; margin-bottom: 10px;">${phase.characterEmoji}</div>
+                    <div class="character-name">${phase.character}</div>
+                    <div class="dialogue">${phase.dialogue}</div>
+                </div>
+
+                <div class="game-content">
+                    <div class="mission-text">${phase.mission}</div>
+            `;
+
+            if (phase.type === 'collection') {
+                html += renderCollection(phase);
+            } else if (phase.type === 'creation') {
+                html += renderCreation(phase);
+            } else if (phase.type === 'maze') {
+                html += renderMaze(phase);
+            } else if (phase.type === 'quiz') {
+                html += renderQuiz(phase);
+            } else if (phase.type === 'pitch') {
+                html += renderPitch(phase);
+            } else if (phase.type === 'reflection') {
+                html += renderReflection(phase);
+            } else if (phase.type === 'business_plan') {
+                html += renderBusinessPlan(phase);
+            } else if (phase.type === 'challenges') {
+                html += renderChallenges(phase);
+            } else if (phase.type === 'launch_decisions') {
+                html += renderLaunchDecisions(phase);
+            } else if (phase.type === 'celebration') {
+                html += renderCelebration(phase);
+            }
+
+            html += `</div>`;
+            gameArea.innerHTML = html;
+        }
+
+        function renderCollection(phase) {
+            let html = '<div class="objects-container">';
+            
+            phase.objects.forEach((obj, idx) => {
+                const isCollected = gameData.collectedItems.includes(idx);
+                html += `
+                    <div class="object ${isCollected ? 'collected' : ''}" onclick="collectObject(${idx})">
+                        <div class="object-emoji">${obj.emoji}</div>
+                        <div class="object-name">${obj.name}</div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            html += `<p style="color: #16A085; margin-top: 10px;">Coletados: ${gameData.collectedItems.length}/${phase.required}</p>`;
+
+            if (gameData.collectedItems.length >= phase.required) {
+                const currentPhase = gameData.phases[gameData.currentPhase];
+                let correctItemsCollected = 0;
+                let hasIncorrectItems = false;
+
+                gameData.collectedItems.forEach(idx => {
+                    if (currentPhase.objects[idx].correct) {
+                        correctItemsCollected++;
+                    } else {
+                        hasIncorrectItems = true;
+                    }
+                });
+
+                if (!hasIncorrectItems && correctItemsCollected === phase.required) {
+                    html += `
+                        <div class="message success">✓ Parabéns! Você escolheu os objetos corretos de resistência!</div>
+                        <button class="btn-primary" onclick="nextPhase()">Próxima Fase</button>
+                    `;
+                } else {
+                    html += `
+                        <div class="message warning">✗ Alguns objetos não representam a resistência negra. Tente novamente!</div>
+                        <button class="btn-secondary" onclick="resetCollection()">Tentar Novamente</button>
+                    `;
+                }
+            }
+
+            return html;
+        }
+
+        function resetCollection() {
+            gameData.collectedItems = [];
+            renderGame();
+        }
+
+        function renderCreation(phase) {
+            let html = '<div class="objects-container">';
+            
+            phase.elements.forEach((elem, idx) => {
+                const isSelected = gameData.collectedItems.includes(idx);
+                html += `
+                    <div class="object ${isSelected ? 'collected' : ''}" onclick="addElement(${idx})">
+                        <div class="object-emoji">${elem.split(' ')[0]}</div>
+                        <div class="object-name">${elem.split(' ')[1]}</div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            html += `<p style="color: #16A085;">Elementos: ${gameData.collectedItems.length} (mínimo ${phase.minRequired}, máximo ${phase.maxRequired})</p>`;
+
+            if (gameData.collectedItems.length >= phase.minRequired && gameData.collectedItems.length <= phase.maxRequired) {
+                html += `
+                    <div class="message success">✓ Produto criado!</div>
+                    <button class="btn-primary" onclick="nextPhase()">Próxima Fase</button>
+                `;
+            }
+
+            return html;
+        }
+
+        function renderMaze() {
+            let html = '<p style="margin-bottom: 15px;">Clique no alvo (🎯) para completar a missão!</p>';
+            html += '<div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 15px;">';
+            
+            for (let i = 0; i < 25; i++) {
+                const isEnd = i === 24;
+                const emoji = isEnd ? '🎯' : ['✓', '⭐', '💎', '🏆'][Math.floor(Math.random() * 4)];
+                html += `
+                    <div onclick="${isEnd ? 'completePhase()' : ''}" 
+                         style="background: ${isEnd ? '#F39C12' : '#8E44AD'}; padding: 20px; border-radius: 10px; text-align: center; font-size: 1.5em; cursor: pointer; transition: all 0.3s;">
+                        ${emoji}
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function renderQuiz(phase) {
+            let html = '<div>';
+            
+            if (phase.lesson) {
+                html += `
+                    <div style="background: rgba(22, 160, 133, 0.2); padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #16A085;">
+                        <h3 style="color: #16A085; margin-bottom: 15px;">📚 Conteúdo da Aula</h3>
+                        <div style="line-height: 1.8; color: #ecf0f1;">
+                            ${phase.lesson}
+                        </div>
+                    </div>
+                `;
+            }
+
+            phase.questions.forEach((q, idx) => {
+                html += `
+                    <div class="quiz-question" id="question${idx}" style="transition: all 0.3s;">
+                        <strong>Q${idx + 1}: ${q.q}</strong>
+                        <div style="margin-top: 10px;">
+                `;
+                
+                q.options.forEach((opt, optIdx) => {
+                    html += `
+                        <div class="quiz-option">
+                            <label>
+                                <input type="radio" name="q${idx}" value="${optIdx}">
+                                <span>${opt}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+            });
+
+            html += `<button class="btn-primary" onclick="submitQuiz()">Verificar Respostas</button>`;
+            return html + '</div>';
+        }
+
+        function renderPitch() {
+            let html = `
+                <div style="margin-bottom: 15px;">
+                    <label><strong>Nome do Negócio:</strong></label>
+                    <input type="text" id="businessName" placeholder="Ex: Tech para Todos">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label><strong>Impacto Social:</strong></label>
+                    <textarea id="businessPurpose" placeholder="Como seu negócio transforma a comunidade?" style="height: 80px;"></textarea>
+                </div>
+                <button class="btn-primary" onclick="submitPitch()">Apresentar Pitch</button>
+            `;
+            return html;
+        }
+
+        function renderReflection(phase) {
+            let html = '<div>';
+            
+            if (phase.lesson) {
+                html += `
+                    <div style="background: rgba(22, 160, 133, 0.2); padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #16A085;">
+                        <div style="line-height: 1.8; color: #ecf0f1;">
+                            ${phase.lesson}
+                        </div>
+                    </div>
+                `;
+            }
+
+            phase.questions.forEach((q, idx) => {
+                html += `
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #16A085;">
+                            ${q.prompt}
+                        </label>
+                        <textarea id="reflection${idx}" placeholder="${q.placeholder}" 
+                            style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #8E44AD; 
+                            background: rgba(0,0,0,0.3); color: #ecf0f1; min-height: 80px; font-size: 1em;"></textarea>
+                    </div>
+                `;
+            });
+
+            html += `<button class="btn-primary" onclick="submitReflection(${phase.questions.length})">Continuar</button>`;
+            return html + '</div>';
+        }
+
+        function renderBusinessPlan(phase) {
+            let html = '<div>';
+            
+            if (phase.lesson) {
+                html += `
+                    <div style="background: rgba(22, 160, 133, 0.2); padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #16A085;">
+                        <div style="line-height: 1.8; color: #ecf0f1;">
+                            ${phase.lesson}
+                        </div>
+                    </div>
+                `;
+            }
+
+            phase.fields.forEach((field, idx) => {
+                html += `
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #16A085;">
+                            ${field.label}
+                        </label>
+                        <input type="text" id="${field.id}" placeholder="${field.placeholder}" 
+                            style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #8E44AD; 
+                            background: rgba(0,0,0,0.3); color: #ecf0f1; font-size: 1em;">
+                    </div>
+                `;
+            });
+
+            html += `<button class="btn-primary" onclick="submitBusinessPlan()">Finalizar Plano</button>`;
+            return html + '</div>';
+        }
+
+        function renderChallenges(phase) {
+            let html = '<div>';
+            
+            phase.challenges.forEach((challenge, idx) => {
+                html += `
+                    <div class="quiz-question" id="challenge${idx}">
+                        <strong>🎯 ${challenge.title}</strong>
+                        <div style="margin-top: 10px;">
+                `;
+                
+                challenge.options.forEach((opt, optIdx) => {
+                    html += `
+                        <div class="quiz-option">
+                            <label>
+                                <input type="radio" name="challenge${idx}" value="${optIdx}">
+                                <span>${opt}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+            });
+
+            html += `<button class="btn-primary" onclick="submitChallenges()">Enfrentar Desafios</button>`;
+            return html + '</div>';
+        }
+
+        function renderLaunchDecisions(phase) {
+            let html = '<div>';
+            
+            phase.scenarios.forEach((scenario, idx) => {
+                html += `
+                    <div class="quiz-question" id="scenario${idx}" style="margin-bottom: 25px;">
+                        <strong>⚡ ${scenario.situation}</strong>
+                        <div style="margin-top: 10px;">
+                `;
+                
+                scenario.options.forEach((opt, optIdx) => {
+                    html += `
+                        <div class="quiz-option">
+                            <label>
+                                <input type="radio" name="scenario${idx}" value="${optIdx}">
+                                <span>${opt}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+            });
+
+            html += `<button class="btn-primary" onclick="submitLaunchDecisions()">Confirmar Decisões</button>`;
+            return html + '</div>';
+        }
+
+        function renderCelebration(phase) {
+            let html = '<div style="text-align: center;">';
+            
+            html += `
+                <div style="font-size: 4em; margin-bottom: 20px;">🎊</div>
+                <h3 style="color: #F39C12; font-size: 1.8em; margin-bottom: 20px;">
+                    Conquistas Desbloqueadas
+                </h3>
+            `;
+
+            phase.achievements.forEach(achievement => {
+                html += `
+                    <div style="background: rgba(39, 174, 96, 0.2); padding: 15px; border-radius: 10px; 
+                        margin-bottom: 10px; border-left: 4px solid #27AE60; text-align: left;">
+                        ${achievement}
+                    </div>
+                `;
+            });
+
+            if (phase.futureVision) {
+                html += `
+                    <div style="margin-top: 30px; padding: 20px; background: rgba(243, 156, 18, 0.2); 
+                        border-radius: 10px; border: 2px solid #F39C12;">
+                        <h4 style="color: #F39C12; margin-bottom: 15px;">🌅 O Futuro te Espera</h4>
+                        <p style="color: #ecf0f1; line-height: 1.8;">
+                            Sua jornada está apenas começando. O reconhecimento veio, mas o verdadeiro 
+                            empreendedorismo é uma caminhada constante. Continue aprendendo, adaptando 
+                            e transformando sua comunidade.
+                        </p>
+                        <p style="color: #16A085; margin-top: 15px; font-weight: bold;">
+                            ${gameData.playerName}, você é prova viva de que sonhos negros se tornam realidade! 🚀
+                        </p>
+                    </div>
+                `;
+            }
+
+            html += `
+                <button class="btn-primary" style="margin-top: 30px;" onclick="nextPhase()">
+                    Finalizar Jornada
+                </button>
+            `;
+
+            html += '</div>';
+            return html;
+        }
+
+        function collectObject(idx) {
+            if (!gameData.collectedItems.includes(idx)) {
+                gameData.collectedItems.push(idx);
+                gameData.score += 10;
+                renderGame();
+            }
+        }
+
+        function addElement(idx) {
+            const phase = gameData.phases[gameData.currentPhase];
+            if (gameData.collectedItems.includes(idx)) {
+                gameData.collectedItems = gameData.collectedItems.filter(i => i !== idx);
+            } else if (gameData.collectedItems.length < phase.maxRequired) {
+                gameData.collectedItems.push(idx);
+            }
+            renderGame();
+        }
+
+        function completePhase() {
+            gameData.score += 20;
+            nextPhase();
+        }
+
+        function submitQuiz() {
+            const questions = gameData.phases[gameData.currentPhase].questions;
+            let correct = 0;
+
+            questions.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                const questionDiv = document.querySelector(`#question${idx}`);
+                
+                if (selected) {
+                    const selectedValue = parseInt(selected.value);
+                    if (selectedValue === q.correct) {
+                        correct++;
+                        questionDiv.style.background = 'rgba(39, 174, 96, 0.3)';
+                        questionDiv.style.borderLeft = '4px solid #27AE60';
+                    } else {
+                        questionDiv.style.background = 'rgba(231, 76, 60, 0.3)';
+                        questionDiv.style.borderLeft = '4px solid #E74C3C';
+                        
+                        const correctOption = questionDiv.querySelector(`input[value="${q.correct}"]`).parentElement.parentElement;
+                        correctOption.style.background = 'rgba(39, 174, 96, 0.2)';
+                        correctOption.style.borderRadius = '5px';
+                        correctOption.style.padding = '5px';
+                    }
+                } else {
+                    questionDiv.style.background = 'rgba(231, 76, 60, 0.2)';
+                    questionDiv.style.borderLeft = '4px solid #E74C3C';
+                }
+            });
+
+            const gameArea = document.getElementById('gameArea');
+            const required = gameData.phases[gameData.currentPhase].required;
+
+            if (correct >= required) {
+                gameData.score += 30;
+                gameArea.innerHTML += `
+                    <div class="message success" style="margin-top: 20px;">
+                        ✓ Você acertou ${correct}/${questions.length}! Parabéns!
+                    </div>
+                    <button class="btn-primary" onclick="nextPhase()">Próxima Fase</button>
+                `;
+            } else {
+                gameArea.innerHTML += `
+                    <div class="message warning" style="margin-top: 20px;">
+                        ✗ Você acertou ${correct}/${questions.length}. Precisa acertar ${required}. Tente novamente!
+                    </div>
+                    <button class="btn-secondary" onclick="renderGame()">Tentar Novamente</button>
+                `;
+            }
+
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.disabled = true;
+            });
+
+            const verifyButton = document.querySelector('button[onclick="submitQuiz()"]');
+            if (verifyButton) {
+                verifyButton.disabled = true;
+                verifyButton.style.opacity = '0.5';
+                verifyButton.style.cursor = 'not-allowed';
+            }
+        }
+
+        function submitPitch() {
+            const name = document.getElementById('businessName').value;
+            const purpose = document.getElementById('businessPurpose').value;
+
+            if (name && purpose && name.trim() !== '' && purpose.trim() !== '') {
+                gameData.score += 50;
+                const gameArea = document.getElementById('gameArea');
+                gameArea.innerHTML += `
+                    <div class="message success" style="margin-top: 20px;">
+                        ✓ Pitch apresentado com sucesso!
+                    </div>
+                    <button class="btn-primary" onclick="nextPhase()">Próximo Capítulo</button>
+                `;
+            } else {
+                alert('Preencha todos os campos antes de apresentar o pitch!');
+            }
+        }
+
+        function submitReflection(numQuestions) {
+            let allFilled = true;
+            for (let i = 0; i < numQuestions; i++) {
+                const value = document.getElementById(`reflection${i}`).value.trim();
+                if (!value) {
+                    allFilled = false;
+                    break;
+                }
+            }
+
+            if (allFilled) {
+                gameData.score += 30;
+                nextPhase();
+            } else {
+                alert('Por favor, preencha todas as reflexões antes de continuar!');
+            }
+        }
+
+        function submitBusinessPlan() {
+            const phase = gameData.phases[gameData.currentPhase];
+            let allFilled = true;
+            
+            phase.fields.forEach(field => {
+                const value = document.getElementById(field.id).value.trim();
+                if (!value) {
+                    allFilled = false;
+                }
+            });
+
+            if (allFilled) {
+                gameData.score += 40;
+                nextPhase();
+            } else {
+                alert('Por favor, preencha todos os campos do plano de negócio!');
+            }
+        }
+
+        function submitChallenges() {
+            const phase = gameData.phases[gameData.currentPhase];
+            let correct = 0;
+            let allAnswered = true;
+
+            phase.challenges.forEach((challenge, idx) => {
+                const selected = document.querySelector(`input[name="challenge${idx}"]:checked`);
+                const challengeDiv = document.querySelector(`#challenge${idx}`);
+                
+                if (selected) {
+                    const selectedValue = parseInt(selected.value);
+                    if (selectedValue === challenge.correct) {
+                        correct++;
+                        challengeDiv.style.background = 'rgba(39, 174, 96, 0.3)';
+                        challengeDiv.style.borderLeft = '4px solid #27AE60';
+                        
+                        challengeDiv.innerHTML += `
+                            <div style="margin-top: 10px; padding: 10px; background: rgba(39, 174, 96, 0.2); 
+                                border-radius: 5px; color: #ecf0f1;">
+                                ✓ ${challenge.feedback}
+                            </div>
+                        `;
+                    } else {
+                        challengeDiv.style.background = 'rgba(231, 76, 60, 0.3)';
+                        challengeDiv.style.borderLeft = '4px solid #E74C3C';
+                    }
+                } else {
+                    allAnswered = false;
+                    challengeDiv.style.background = 'rgba(231, 76, 60, 0.2)';
+                    challengeDiv.style.borderLeft = '4px solid #E74C3C';
+                }
+            });
+
+            if (!allAnswered) {
+                alert('Por favor, responda todos os desafios!');
+                return;
+            }
+
+            const gameArea = document.getElementById('gameArea');
+            
+            if (correct === phase.challenges.length) {
+                gameData.score += 50;
+                gameArea.innerHTML += `
+                    <div class="message success" style="margin-top: 20px;">
+                        ${phase.successMessage}
+                    </div>
+                    <button class="btn-primary" onclick="nextPhase()">Próximo Capítulo</button>
+                `;
+            } else {
+                gameArea.innerHTML += `
+                    <div class="message warning" style="margin-top: 20px;">
+                        Você acertou ${correct}/${phase.challenges.length}. Reflita sobre as escolhas e tente novamente!
+                    </div>
+                    <button class="btn-secondary" onclick="renderGame()">Tentar Novamente</button>
+                `;
+            }
+
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.disabled = true;
+            });
+        }
+
+        function submitLaunchDecisions() {
+            const phase = gameData.phases[gameData.currentPhase];
+            let correct = 0;
+            let allAnswered = true;
+
+            phase.scenarios.forEach((scenario, idx) => {
+                const selected = document.querySelector(`input[name="scenario${idx}"]:checked`);
+                const scenarioDiv = document.querySelector(`#scenario${idx}`);
+                
+                if (selected) {
+                    const selectedValue = parseInt(selected.value);
+                    if (selectedValue === scenario.correct) {
+                        correct++;
+                        scenarioDiv.style.background = 'rgba(39, 174, 96, 0.3)';
+                        scenarioDiv.style.borderLeft = '4px solid #27AE60';
+                        
+                        scenarioDiv.innerHTML += `
+                            <div style="margin-top: 10px; padding: 10px; background: rgba(39, 174, 96, 0.2); 
+                                border-radius: 5px; color: #ecf0f1;">
+                                ✓ ${scenario.explanation}
+                            </div>
+                        `;
+                    } else {
+                        scenarioDiv.style.background = 'rgba(231, 76, 60, 0.3)';
+                        scenarioDiv.style.borderLeft = '4px solid #E74C3C';
+                        
+                        scenarioDiv.innerHTML += `
+                            <div style="margin-top: 10px; padding: 10px; background: rgba(231, 76, 60, 0.2); 
+                                border-radius: 5px; color: #ecf0f1;">
+                                ✗ ${scenario.explanation}
+                            </div>
+                        `;
+                    }
+                } else {
+                    allAnswered = false;
+                    scenarioDiv.style.background = 'rgba(231, 76, 60, 0.2)';
+                    scenarioDiv.style.borderLeft = '4px solid #E74C3C';
+                }
+            });
+
+            if (!allAnswered) {
+                alert('Por favor, tome todas as decisões!');
+                return;
+            }
+
+            const gameArea = document.getElementById('gameArea');
+            
+            if (correct >= 2) {
+                gameData.score += 60;
+                gameArea.innerHTML += `
+                    <div class="message success" style="margin-top: 20px;">
+                        🎉 Lançamento bem-sucedido! Você tomou decisões sábias (${correct}/${phase.scenarios.length}).
+                    </div>
+                    <button class="btn-primary" onclick="nextPhase()">Próximo Capítulo</button>
+                `;
+            } else {
+                gameArea.innerHTML += `
+                    <div class="message warning" style="margin-top: 20px;">
+                        Você acertou ${correct}/${phase.scenarios.length}. Reflita sobre as decisões e tente novamente!
+                    </div>
+                    <button class="btn-secondary" onclick="renderGame()">Tentar Novamente</button>
+                `;
+            }
+
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.disabled = true;
+            });
+        }
+
+        function nextPhase() {
+            gameData.currentPhase++;
+            gameData.collectedItems = [];
+            renderGame();
+        }
+
+        function renderEnding() {
+            const gameArea = document.getElementById('gameArea');
+            gameArea.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #F39C12; font-size: 2.2em; margin-bottom: 20px;">Parabéns, ${gameData.playerName}!</h2>
+                    <div style="font-size: 4em; margin-bottom: 15px;">${gameData.playerEmoji}</div>
+                    <p style="font-size: 1.2em; color: #16A085; margin-bottom: 25px;">
+                        Você concluiu a Jornada Empreendedora Negra!<br>
+                        Sua pontuação final: <strong style="color: #F39C12;">${gameData.score}</strong>
+                    </p>
+                    <button class="btn-primary" onclick="location.reload()">Jogar Novamente</button>
+                </div>
+            `;
+        }
+
+        // Inicializa o jogo
+        renderCharacterSelection();
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="pt-BR">
